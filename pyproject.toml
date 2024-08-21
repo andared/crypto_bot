@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "crypto-bot"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+aiohttp = "^3.8.1"
+marshmallow-dataclass = "8.5.3"
+requests = "^2.32.3"
+environs = "^11.0.0"
+psycopg2 = "^2.9.8"
+kafka-python-ng = "^2.2.2"
+aiokafka = "^0.10.0"
+redis = "^5.0.6"
+python-telegram-bot = "^21.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

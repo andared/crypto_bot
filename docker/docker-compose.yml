@@ -1,0 +1,49 @@
+version: '3.12'
+services:
+  server:
+    container_name: server
+    ports:
+      - 5100-5200:5101
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - KAFKA_SERVER=crypto-kafka:9094
+      - PG_HOST=crypto-bot-pg
+      - PG_PORT=5432
+    working_dir: /usr/crypto_bot
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ${SERVER_PATH}:/usr/crypto_bot
+    network_mode: host
+    restart: unless-stopped
+    command: bash -c "python3 run_echo.py"
+
+  db:
+    image: postgres:latest
+    container_name: pg
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - 6379:6379
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
